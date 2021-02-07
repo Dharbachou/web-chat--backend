@@ -1,0 +1,19 @@
+{
+  "name": "web-chat--backend",
+  "version": "1.0.0",
+  "description": "web chat backend part",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheRedIsHere/web-chat__backend.git"
+  },
+  "author": "TheRedIsHere",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheRedIsHere/web-chat__backend/issues"
+  },
+  "homepage": "https://github.com/TheRedIsHere/web-chat__backend#readme"
+}
