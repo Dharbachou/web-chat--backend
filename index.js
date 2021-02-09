@@ -1,11 +1,19 @@
 const express = require('express');
-const conf = require('./config/config');
+const bodyParser = require('body-parser');
+
+const conf = require('./config');
+const router = require('./router');
 
 /** system vars*/
 const port = conf.app.port;
 /** end */
 
 const app = express();
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+app.use(router);
 
 app.get('/', (req, res) => {
    return res.send('Home page');
