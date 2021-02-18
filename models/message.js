@@ -1,3 +1,5 @@
+const config = require('../config');
+
 'use strict';
 const {
   Model
@@ -24,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         const id = this.getDataValue('chatId')
         const content = this.getDataValue('message')
 
-        return type === 'text' ? content : `${config.appUrl}:${config.appPort}/chat/${id}/${content}`
+        return type === 'text' ? content : `${config.app.url}:${config.app.port}/chat/${id}/${content}`
       }
     },
     chatId: DataTypes.INTEGER,

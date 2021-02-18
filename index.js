@@ -1,31 +1,24 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const express = require('express')
+const config = require('./config')
+const router = require('./router')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const app = express()
+const http = require('http')
 
-const conf = require('./config');
-const router = require('./router');
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(cors())
+app.use(router)
+app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/uploads'))
 
-/** system vars*/
-const port = conf.app.port;
-/** end */
+const port = config.app.port
 
-const app = express();
+const server = http.createServer(app)
+const SocketServer = require('./socket')
+SocketServer(server)
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(cors());
-app.use(router);
-app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/uploads'));
-
-app.get('/', (req, res) => {
-   return res.send('Home page');
-});
-
-app.get('/', (req, res) => {
-   return res.send('Login screen works now');
-});
-
-app.listen(port, () => {
-    console.log(`Server listening on port: ${port}`);
-});
+server.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+})

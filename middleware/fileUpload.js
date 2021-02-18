@@ -26,7 +26,6 @@ const fileFilter = (req, file, cb) => {
 }
 
 exports.userFile = ((req, res, next) => {
-
     const storage = multer.diskStorage(
         {
             destination: function (req, file, cb) {
@@ -62,6 +61,29 @@ exports.userFile = ((req, res, next) => {
             filename: generateFileName
         });
 
-
     return multer({storage, fileFilter}).single('avatar');
+})();
+
+exports.chatFile = ((req, res, next) => {
+    const storage = multer.diskStorage(
+        {
+            destination: function (req, file, cb) {
+                const {id} = req.body;
+                const dest = `uploads/chat/${id}`;
+
+                fs.access(dest, (err) => {
+                    // if doesn't exist
+                    if (err) {
+                        return fs.mkdir(dest, (err) => {
+                            cb(err, dest);
+                        })
+                    } else {
+                        return cb(null, dest);
+                    }
+                });
+            },
+            filename: generateFileName
+        });
+
+    return multer({storage, fileFilter}).single('image');
 })();

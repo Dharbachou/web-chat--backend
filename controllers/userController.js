@@ -20,7 +20,6 @@ exports.update = async (req, res) => {
             }
         );
         const user = result[0].get({ plain: true });
-        console.log(user);
         delete user.password;
 
         return res.send(user);
