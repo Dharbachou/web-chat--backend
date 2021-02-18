@@ -135,7 +135,7 @@ exports.create = async (req, res) => {
 
 exports.messages = async (req, res) => {
     const limit = 10;
-    const page = req.query.pageBreakAfter || 1;
+    const page = req.query.page || 1;
     const offset = page > 1 ? page * limit : 0;
 
     const messages = await Message.findAndCountAll({
@@ -148,28 +148,25 @@ exports.messages = async (req, res) => {
             }
         ],
         limit,
-        offset
-    });
+        offset,
+        order: [['id', 'DESC']]
+    })
 
     const totalPages = Math.ceil(messages.count / limit);
 
     if (page > totalPages) {
-        return res.json({
-            data: {
-                messages: []
-            }
-        })
-    } else {
-        return res.json({
-            data: {
-                messages: messages.rows,
-                paggination: {
-                    limit,
-                    offset
-                }
-            }
-        });
+        return res.json({ data: { messages: [] } });
     }
+
+    const result = {
+        messages: messages.rows,
+        pagination: {
+            page,
+            totalPages
+        }
+    }
+
+    return res.json(result);
 };
 
 exports.imageUpload = async (req, res) => {
