@@ -16,7 +16,6 @@ exports.auth = (req, res, next) => {
       }
 
       req.user = user;
-      console.log(user);
    });
 
    next();
